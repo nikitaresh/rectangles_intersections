@@ -1,11 +1,11 @@
 This repository contains an implementation of rectangles intersections algorithm.
 
 ## Problem description
-The task is find all intersections involving two or more rectangles.
+The task is to find all intersections involving two or more rectangles.
 
-An algorithm complexity of naive implementation is equal to O(N*2<sup>N</sup>). In the worst case, N identical rectangles, the answer has 2<sup>N</sup>-N-1 intersections.
+An algorithm complexity of naive implementation is equal to O(N*2<sup>N</sup>). In the worst case, N identical rectangles, the answer is 2<sup>N</sup>-N-1 intersections.
 
-In sparse case, when intersection not grows exponentially, the search problem can be decreased. The proposed method is based on a known structute [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree). The implementation of Interval Tree was taken from [this](https://github.com/IvanPinezhaninov/IntervalTree) repository.
+In sparse case, when number of intersections doesn't grow exponentially, the number of comparisons can be greatly reduced. The proposed method is based on a known [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree) structure. The implementation of Interval Tree was taken from [this](https://github.com/IvanPinezhaninov/IntervalTree) repository.
 
 Interval tree is used to store 'y' intervals of rectangles. Each rectangle is compared only with rectangles which intervals are overlapping. In this case, algorithm complexity is close to O(N log(2<sup>N</sup>)), that is O(N<sup>2</sup>).
 
@@ -20,12 +20,12 @@ Minimal requirements for
     GCC 4.9
 
 ## Build steps
-1. Generate project file using CMake. Linux commands:
+1. Generate a project using CMake. Linux commands:
 
        cd build
        cmake ..
 
-2. Build project. Linux command:
+2. Build the project. Linux command:
 
        make
 
@@ -34,4 +34,3 @@ The [data](data/) directory contains tests. Run test in Linux:
 
     cd bin.release
     ./rectangles_intersections ../data/test1.json > output1.txt
-
