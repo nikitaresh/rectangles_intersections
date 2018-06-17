@@ -1,0 +1,17 @@
+test1.json: 
+    4 rectangles with known configuration
+test2.json: 
+    5 identical rectangles, the answer is 26 identical rectangles 
+    (exactly same as the input) as all possible intersections
+test3.json:
+    15 identical rectangles, the answer is 32752 identical rectangles 
+    (exactly same as the input) as all possible intersections
+test4.json:
+    1000 rectangles with constant width and heigh, rectangles are divided into 10 lines of 100 in each,
+    where x = 10 + 20 * (index % 100), y = 10 + 200 (index / 100)
+test5.json:
+    1000 rectangles with constant width and heigh, rectangles are divided into 10 lines of 100 in each,
+    where x = 10 + 10 * (index % 100), y = 10 + 200 (index / 100)
+test6.json:
+    1000 rectangles with constant width and heigh, rectangles are divided into 10 lines of 100 in each,
+    where x = 10 + 5 * (index % 100), y = 10 + 200 (index / 100)
