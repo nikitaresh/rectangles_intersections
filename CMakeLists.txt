@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.0 )
 
-option(BUILD_TOOLS "build generate_input tool" OFF)
+option(BUILD_TOOLS "build tools" ON)
 
 if(NOT CMAKE_BUILD_TYPE )
    set( CMAKE_BUILD_TYPE "release" )

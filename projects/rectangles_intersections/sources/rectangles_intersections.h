@@ -3,74 +3,52 @@
 
 #include <string>
 #include <vector>
-#include <set>
+#include <map>
+#include <rects.h>
+#include <intervaltree.hpp>
 
-namespace ri    // rectangles intersections namespace
+
+// Rectangles ordered by right border Type
+typedef std::map< int, std::vector<ri::RectsIntersection> > OrderedRectsType;
+
+// Intervals::IntervalTree type
+typedef Intervals::IntervalTree<int, OrderedRectsType> IntervalTreeType;
+
+// interval type of Intervals::IntervalTree
+typedef Intervals::Interval<int, OrderedRectsType> IntervalType;
+
+// right borders storage type
+typedef std::map< int, std::vector<IntervalType> > RightBordersType;
+
+
+
+class RectanglesIntersections
 {
-    struct Rect
-    {
-        Rect();
-        Rect( const Rect& rect );
-        Rect( Rect&& rect );
-        Rect( int x, int y, int width, int height );
-
-        Rect& operator = ( const Rect& other );
-        Rect& operator = ( Rect&& other ) noexcept;
-
-        bool isValid() const;
-
-    public:
-        int x;
-        int y;
-        int width;
-        int height;
-    };
-
-    struct DerivedRect
-    {
-        DerivedRect();
-        DerivedRect( const DerivedRect& derivedRect );
-        DerivedRect( DerivedRect&& derivedRect );
-        DerivedRect( const Rect& rect, const std::string& name );
-
-        bool operator < ( const DerivedRect& other ) const;
-        DerivedRect& operator = ( const DerivedRect& other );
-        DerivedRect& operator = ( DerivedRect&& other ) noexcept;
-
-    public:
-        std::string name;
-        Rect rect;
-    };
-
-    struct RectsIntersection
-    {
-        RectsIntersection();
-        RectsIntersection( const RectsIntersection& intersection );
-        RectsIntersection( RectsIntersection&& intersection);
-
-        RectsIntersection& operator = ( const RectsIntersection& other );
-        RectsIntersection& operator = ( RectsIntersection&& other ) noexcept;
-
-    public:
-        std::string rectName1;
-        std::string rectName2;
-        Rect intersRect;
-    };
-
-    /**
-    * @brief calculate intersection between two rectangles
-    * @param rect1 - first rectangle
-    * @param rect2 - second rectangle
-    * @return intersection rectangle
-    */
-    Rect intersectRect( const Rect& rect1, const Rect& rect2 );
+public:
+    RectanglesIntersections();
+    ~RectanglesIntersections();
 
     /**
     * @brief calculate all intersections between input rectangles
     * @param rects - input rectangles
     * @return all rectangles intersections
     */
-    std::vector<RectsIntersection> calcRectsIntersections( const std::vector<Rect>& rects );
-}
+    std::vector<ri::RectsIntersection> calculate(const std::vector<ri::Rect>& rects);
+
+private:
+    void addRectangleToTree( IntervalTreeType& intervalTree,
+                             RightBordersType& rightBorders,
+                             const ri::RectsIntersection& intersection );
+
+    void processNewRectangle( const IntervalType& interval,
+                              IntervalTreeType& intervalTree,
+                              const ri::DerivedRect& derivedRect,
+                              RightBordersType& rightBorders,
+                              std::vector<ri::RectsIntersection>& answer );
+
+    void removeFinishedRectangles( int currentRectX,
+                                   IntervalTreeType& intervalTree,
+                                   RightBordersType& rightBorders );
+};
 
 #endif // RECTANGLES_INTERSECTIONS

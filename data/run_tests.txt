@@ -1,0 +1,6 @@
+../data/test1.json ../data/answer1.txt
+../data/test2.json ../data/answer2.txt
+../data/test3.json ../data/answer3.txt
+../data/test4.json ../data/answer4.txt
+../data/test5.json ../data/answer5.txt
+../data/test6.json ../data/answer6.txt

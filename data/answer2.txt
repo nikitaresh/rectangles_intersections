@@ -1,0 +1,34 @@
+Input:
+	1: Rectangle at (100,100), w=250, h=80.
+	2: Rectangle at (100,100), w=250, h=80.
+	3: Rectangle at (100,100), w=250, h=80.
+	4: Rectangle at (100,100), w=250, h=80.
+	5: Rectangle at (100,100), w=250, h=80.
+
+Intersections
+	Between rectangle 1 and 2 at (100,100), w=250, h=80.
+	Between rectangle 1 and 3 at (100,100), w=250, h=80.
+	Between rectangle 2 and 3 at (100,100), w=250, h=80.
+	Between rectangle 1, 2 and 3 at (100,100), w=250, h=80.
+	Between rectangle 1 and 4 at (100,100), w=250, h=80.
+	Between rectangle 2 and 4 at (100,100), w=250, h=80.
+	Between rectangle 1, 2 and 4 at (100,100), w=250, h=80.
+	Between rectangle 3 and 4 at (100,100), w=250, h=80.
+	Between rectangle 1, 3 and 4 at (100,100), w=250, h=80.
+	Between rectangle 2, 3 and 4 at (100,100), w=250, h=80.
+	Between rectangle 1, 2, 3 and 4 at (100,100), w=250, h=80.
+	Between rectangle 1 and 5 at (100,100), w=250, h=80.
+	Between rectangle 2 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 2 and 5 at (100,100), w=250, h=80.
+	Between rectangle 3 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 3 and 5 at (100,100), w=250, h=80.
+	Between rectangle 2, 3 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 2, 3 and 5 at (100,100), w=250, h=80.
+	Between rectangle 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 2, 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 2, 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 3, 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 3, 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 2, 3, 4 and 5 at (100,100), w=250, h=80.
+	Between rectangle 1, 2, 3, 4 and 5 at (100,100), w=250, h=80.

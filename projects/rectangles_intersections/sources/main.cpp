@@ -95,9 +95,9 @@ static void printAnswer( const std::vector<ri::Rect>& inputRects,
     for (size_t index = 0; index < intersections.size(); ++index)
     {
         const ri::RectsIntersection& rect = intersections[index];
-        std::cout << "\tBetween rectangle " << rect.rectName1 << " and " << rect.rectName2
-                  << " at (" << rect.intersRect.x << "," << rect.intersRect.y << "), w="
-                  << rect.intersRect.width << ", h=" << rect.intersRect.height << "." << std::endl;
+        std::cout << "\tBetween rectangle " << rect.getIntersectionName()
+                  << " at (" << rect.rect.x << "," << rect.rect.y << "), w="
+                  << rect.rect.width << ", h=" << rect.rect.height << "." << std::endl;
     }
 }
 
@@ -124,7 +124,8 @@ int main( int argc, char* argv[] )
         rectangles.resize( maxNumOfRectanples );
     }
 
-    std::vector<ri::RectsIntersection> intersections = ri::calcRectsIntersections( rectangles );
+    RectanglesIntersections rectanglesIntersections;
+    std::vector<ri::RectsIntersection> intersections = rectanglesIntersections.calculate( rectangles );
     printAnswer(rectangles, intersections);
 
     return 0;

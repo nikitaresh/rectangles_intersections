@@ -33,4 +33,4 @@ Minimal requirements for
 The [data](data/) directory contains tests. Run test in Linux:
 
     cd bin.release
-    ./rectangles_intersections ../data/test1.json > output1.txt
+    ./run_tests ../data/run_tests.txt

@@ -6,11 +6,13 @@ include_directories( sources )
 include_directories( ${ROOT_DIR}/thirdparty/jsoncpp-0.10.6/include )
 include_directories( ${ROOT_DIR}/thirdparty/IntervalTree/include )
 
-set( HEADER sources/rectangles_intersections.h
+set( HEADER sources/rects.h
+            sources/rectangles_intersections.h
             ${ROOT_DIR}/thirdparty/IntervalTree/include/intervaltree.hpp
             )
 
 set( SOURCES sources/main.cpp
+             sources/rects.cpp
              sources/rectangles_intersections.cpp
              )
 
