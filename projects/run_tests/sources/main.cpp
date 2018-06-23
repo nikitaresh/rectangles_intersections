@@ -9,8 +9,8 @@
 
 #if WIN32
 const std::string applicationName = "rectangles_intersections.exe";
-#elif
-const std::string applicationName = "rectangles_intersections";
+#else
+const std::string applicationName = "./rectangles_intersections";
 #endif
 
 using namespace ri;
@@ -246,10 +246,16 @@ static bool compareIntersections(std::vector<RectsIntersection>& intersectionsAn
 
 static bool compareFiles(std::fstream& answerFile, std::fstream& benchmarkFile)
 {
-    if( !answerFile.is_open() || !benchmarkFile.is_open() ) {
-        std::cout << "Can't open files" << std::endl;
+    if( !answerFile.is_open() ) {
+        std::cout << "Can't open a temporary file" << std::endl;
         return false;
     }
+
+    if( !benchmarkFile.is_open() ) {
+        std::cout << "Can't open a benchmark file" << std::endl;
+        return false;
+    }
+
 
     std::vector<DerivedRect> rectanglesAnswer, rectanglesBenchmark;
     std::vector<RectsIntersection> intersectionsAnswer, intersectionsBenchmark;
