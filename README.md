@@ -33,4 +33,4 @@ Minimal requirements for
 The [data](data/) directory contains tests and a [tests_list](data/tests_list.txt) file where listed all tests for batch testing. Before start a [run_tests](projects/run_tests) application, make sure that all applications located in directory bin.release or bin.debug. Run test in Linux:
 
     cd bin.release
-    ./run_tests ../data/run_tests.txt
+    ./run_tests ../data/tests_list.txt
