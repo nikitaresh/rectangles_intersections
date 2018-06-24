@@ -36,19 +36,20 @@ public:
     std::vector<ri::RectsIntersection> calculate(const std::vector<ri::Rect>& rects);
 
 private:
-    void addRectangleToTree( IntervalTreeType& intervalTree,
-                             RightBordersType& rightBorders,
-                             const ri::RectsIntersection& intersection );
+    void addRectangleToTree( const ri::RectsIntersection& intersection );
 
     void processNewRectangle( const IntervalType& interval,
-                              IntervalTreeType& intervalTree,
                               const ri::DerivedRect& derivedRect,
-                              RightBordersType& rightBorders,
                               std::vector<ri::RectsIntersection>& answer );
 
-    void removeFinishedRectangles( int currentRectX,
-                                   IntervalTreeType& intervalTree,
-                                   RightBordersType& rightBorders );
+    void removeFinishedRectangles( int currentRectX );
+
+private:
+    IntervalTreeType intervalTree;  // interval tree that stores 'y' intervals of rectangles
+    RightBordersType rightBorders;  // tree that store right border of rectangles to update
+                                    // interval tree (delete a rect interval from intervalTree)
+
+
 };
 
 #endif // RECTANGLES_INTERSECTIONS

@@ -12,9 +12,7 @@ RectanglesIntersections::~RectanglesIntersections()
 {
 }
 
-void RectanglesIntersections::addRectangleToTree( IntervalTreeType& intervalTree,
-                                                  RightBordersType& rightBorders,
-                                                  const RectsIntersection& intersection )
+void RectanglesIntersections::addRectangleToTree( const RectsIntersection& intersection )
 {
     int rightBorder = intersection.rect.x + intersection.rect.width;
     IntervalType searchInterval( intersection.rect.y, intersection.rect.y + intersection.rect.height );
@@ -44,9 +42,7 @@ void RectanglesIntersections::addRectangleToTree( IntervalTreeType& intervalTree
 }
 
 void RectanglesIntersections::processNewRectangle( const IntervalType& interval,
-                                                   IntervalTreeType& intervalTree,
                                                    const DerivedRect& derivedRect,
-                                                   RightBordersType& rightBorders,
                                                    std::vector<RectsIntersection>& answer )
 {
     for( auto it = interval.value.begin(); it != interval.value.end(); ++it )
@@ -62,14 +58,12 @@ void RectanglesIntersections::processNewRectangle( const IntervalType& interval,
             answer.push_back( intersection );
 
             // add new intersection to IntervalTree:
-            addRectangleToTree( intervalTree, rightBorders, intersection);
+            addRectangleToTree( intersection);
         }
     }
 }
 
-void RectanglesIntersections::removeFinishedRectangles( int currentRectX,
-                                                        IntervalTreeType& intervalTree,
-                                                        RightBordersType& rightBorders )
+void RectanglesIntersections::removeFinishedRectangles( int currentRectX )
 {
     while( rightBorders.begin() != rightBorders.end() && rightBorders.begin()->first <= currentRectX )
     {
@@ -93,9 +87,6 @@ std::vector<RectsIntersection>
 RectanglesIntersections::calculate( const std::vector<Rect>& inputRects )
 {
     std::vector<RectsIntersection> answer;  // rectangles intersections, answer
-    IntervalTreeType intervalTree;          // interval tree that stores 'y' intervals of rectangles
-    RightBordersType rightBorders;          // tree that store right border of rectangles to update
-                                            // interval tree (delete a rect interval from intervalTree)
 
     std::vector<DerivedRect> namedRects(inputRects.size());
     for(size_t index = 0; index < namedRects.size(); ++index)
@@ -114,17 +105,17 @@ RectanglesIntersections::calculate( const std::vector<Rect>& inputRects )
         const DerivedRect& drivedRect = namedRects[index];
 
         // remove all "finished" (drivedRect.left >= rect.right) rectangles from intervalTree:
-        removeFinishedRectangles( drivedRect.rect.x, intervalTree, rightBorders );
+        removeFinishedRectangles( drivedRect.rect.x );
 
         // calc new intersections for drivedRect:
         IntervalType rectInterval(drivedRect.rect.y, drivedRect.rect.y + drivedRect.rect.height);
         auto overlappingIntervals = intervalTree.findOverlappingIntervals( rectInterval );
         for( auto interval : overlappingIntervals ) {
-            processNewRectangle( interval, intervalTree, drivedRect, rightBorders, answer );
+            processNewRectangle( interval, drivedRect, answer );
         }
 
         // add drivedRect to intervalTree:
-        addRectangleToTree( intervalTree, rightBorders, RectsIntersection(drivedRect) );
+        addRectangleToTree( RectsIntersection(drivedRect) );
     }
 
     return answer;
