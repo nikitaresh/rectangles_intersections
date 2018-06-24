@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <string>
 #include <vector>
 #include <exception>
 #include <algorithm>
+#include <sstream>
 #include <rects.h>
 
 #if WIN32
@@ -15,6 +15,22 @@ const std::string applicationName = "./rectangles_intersections";
 
 using namespace ri;
 
+static void deleteLastSymbol(std::string& str, char symbol)
+{
+    if( str.size() > 0 && str[str.size() - 1] == symbol ) {
+        str.resize((str.size() - 1));
+    }
+}
+
+/**
+* @brief delete special symbols at the end of string, Linux strings of files contain '/r' at the end
+*/
+static void deleteSpecialSymbolsAtTheEnd(std::string& str)
+{
+    deleteLastSymbol( str, '\n' );
+    deleteLastSymbol( str, '\r' );
+}
+
 /**
 * @throw std::runtime_error or std::invalid_argument
 */
@@ -22,7 +38,7 @@ static Rect parseRectangle( const std::string& line )
 {
     Rect rect;
 
-    if( line[0] != '(' ) {
+    if(line.empty() || line[0] != '(' ) {
         throw std::runtime_error( "Bad string format" );
     }
 
@@ -74,7 +90,7 @@ static DerivedRect parseDerivedRect(const std::string& line)
 {
     DerivedRect derivedRect;
 
-    if( line[0] != '\t' ) {
+    if( line.empty() || line[0] != '\t' ) {
         throw std::runtime_error("Bad string format");
     }
 
@@ -96,14 +112,22 @@ static DerivedRect parseDerivedRect(const std::string& line)
 
 static bool readRects(std::fstream& file, std::vector<DerivedRect>& rectangles)
 {
+    if( !file.is_open() )
+    {
+        std::cout << "Can't read rectangles: the file not opened" << std::endl;
+        return false;
+    }
+
     std::string line;
     std::getline(file, line);
+    deleteSpecialSymbolsAtTheEnd(line);
     if( line != "Input:" ) {
         std::cout << "Error parse rectangles: bad file format" << std::endl;
         return false;
     }
 
     std::getline(file, line);
+    deleteSpecialSymbolsAtTheEnd(line);
     while( file.good() && !line.empty() )
     {
         try {
@@ -114,6 +138,7 @@ static bool readRects(std::fstream& file, std::vector<DerivedRect>& rectangles)
         }
 
         std::getline(file, line);
+        deleteSpecialSymbolsAtTheEnd(line);
     }
 
     return true;
@@ -165,8 +190,15 @@ static RectsIntersection parseIntersection(const std::string& line)
 
 static bool readIntersections(std::fstream& file, std::vector<RectsIntersection>& intersections)
 {
+    if (!file.is_open())
+    {
+        std::cout << "Can't read intersections: the file not opened" << std::endl;
+        return false;
+    }
+
     std::string line;
     std::getline(file, line);
+    deleteSpecialSymbolsAtTheEnd(line);
     if( line != "Intersections" ) {
         std::cout << "Error parse intersections: bad file format" << std::endl;
         return false;
@@ -175,6 +207,7 @@ static bool readIntersections(std::fstream& file, std::vector<RectsIntersection>
     while(file.good())
     {
         std::getline(file, line);
+        deleteSpecialSymbolsAtTheEnd(line);
         if( line.empty() ) {
             continue;
         }
@@ -256,11 +289,12 @@ static bool compareFiles(std::fstream& answerFile, std::fstream& benchmarkFile)
         return false;
     }
 
-
     std::vector<DerivedRect> rectanglesAnswer, rectanglesBenchmark;
     std::vector<RectsIntersection> intersectionsAnswer, intersectionsBenchmark;
 
-    if( !readRects(answerFile, rectanglesAnswer) || !readIntersections(answerFile, intersectionsAnswer) ) {
+    if( !readRects(answerFile, rectanglesAnswer) || 
+        !readIntersections(answerFile, intersectionsAnswer) )
+    {
         std::cout << "Error while parsing an answer file" << std::endl;
         return false;
     }
@@ -304,18 +338,22 @@ static void runTests(std::fstream& testsFile)
 
     while( testsFile.good() )
     {
+        bool testResult = false;
         std::string line;
         std::getline(testsFile, line);
-        size_t spaceIndex = line.find(' ');
-        if( spaceIndex == std::string::npos ) {
-            std::cout << "Bad format of tests file" << std::endl;
-            return;
+        deleteSpecialSymbolsAtTheEnd(line);
+
+        std::string inputFilePath, answerFilePath;
+        std::stringstream filesStream(line);
+        try {
+            filesStream >> inputFilePath >> answerFilePath;
+            testResult = runTest(inputFilePath, answerFilePath);
+        }
+        catch (...) {
+            std::cout << "Can't parse string: " << line << std::endl;
+            testResult = false;
         }
 
-        std::string inputFilePath = line.substr(0, spaceIndex);
-        std::string answerFilePath = line.substr(spaceIndex + 1);
-
-        bool testResult = runTest(inputFilePath, answerFilePath);
         std::cout << "Test: " << inputFilePath << std::endl
                   << (testResult ? "OK" : "Failed") << std::endl;
     }
