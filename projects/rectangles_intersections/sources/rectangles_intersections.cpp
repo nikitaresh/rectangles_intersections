@@ -86,6 +86,9 @@ void RectanglesIntersections::removeFinishedRectangles( int currentRectX )
 std::vector<RectsIntersection> 
 RectanglesIntersections::calculate( const std::vector<Rect>& inputRects )
 {
+    intervalTree.clear();
+    rightBorders.clear();
+
     std::vector<RectsIntersection> answer;  // rectangles intersections, answer
 
     std::vector<DerivedRect> namedRects(inputRects.size());
