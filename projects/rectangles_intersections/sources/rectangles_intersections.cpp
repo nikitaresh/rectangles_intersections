@@ -123,3 +123,27 @@ RectanglesIntersections::calculate( const std::vector<Rect>& inputRects )
 
     return answer;
 }
+
+
+void RectanglesIntersections::printToStream(
+    std::ostream& textStream,
+    const std::vector<ri::Rect>& inputRects,
+    const std::vector<ri::RectsIntersection>& intersections )
+{
+    textStream << "Input:" << std::endl;
+    for (size_t index = 0; index < inputRects.size(); ++index)
+    {
+        const ri::Rect& rect = inputRects[index];
+        textStream << "\t" << index + 1 << ": Rectangle at (" << rect.x << "," << rect.y
+                   << "), w=" << rect.width << ", h=" << rect.height << "." << std::endl;
+    }
+
+    textStream << std::endl << "Intersections" << std::endl;
+    for (size_t index = 0; index < intersections.size(); ++index)
+    {
+        const ri::RectsIntersection& rect = intersections[index];
+        textStream << "\tBetween rectangle " << rect.getIntersectionName()
+                   << " at (" << rect.rect.x << "," << rect.rect.y << "), w="
+                   << rect.rect.width << ", h=" << rect.rect.height << "." << std::endl;
+    }
+}

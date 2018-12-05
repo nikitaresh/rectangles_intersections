@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <ostream>
 #include <rects.h>
 #include <intervaltree.hpp>
 
@@ -34,6 +35,10 @@ public:
     * @return all rectangles intersections
     */
     std::vector<ri::RectsIntersection> calculate(const std::vector<ri::Rect>& rects);
+
+    static void printToStream(std::ostream& textStream,
+                              const std::vector<ri::Rect>& inputRects,
+                              const std::vector<ri::RectsIntersection>& intersections);
 
 private:
     void addRectangleToTree( const ri::RectsIntersection& intersection );
